@@ -1,10 +1,10 @@
-package fr.lacombe.cuisine.purchaseorder;
+package fr.lacombe.cuisine.purchaseorder.infra;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloWorldController {
+public class PurchaseOrderController {
     @GetMapping("/status")
     public String hello() {
         return "Hello";
