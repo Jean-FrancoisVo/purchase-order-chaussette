@@ -9,4 +9,9 @@ public class HelloWorldController {
     public String hello() {
         return "Hello";
     }
+
+    @GetMapping("/order")
+    public String order() {
+        return "1 tomate\n2 patates";
+    }
 }
