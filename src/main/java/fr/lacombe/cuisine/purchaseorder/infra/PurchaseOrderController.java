@@ -9,16 +9,18 @@ import java.util.Optional;
 @RestController
 public class PurchaseOrderController {
     private final Recipes recipes;
-    private MealOrder currentMealOrder;
+    private MealOrderRepository mealOrderRepository;
 
-    public PurchaseOrderController(Recipes recipes) {
+    public PurchaseOrderController(Recipes recipes, MealOrderRepository mealOrderRepository) {
         this.recipes = recipes;
+        this.mealOrderRepository = mealOrderRepository;
     }
 
     @GetMapping("/purchase-order")
     public String getPurchaseOrder() {
-        String dishName = currentMealOrder.getDishName();
-        int dishQuantity = currentMealOrder.getDishQuantity();
+        MealOrder lastMealOrder = mealOrderRepository.getLastMealOrder();
+        String dishName = lastMealOrder.getDishName();
+        int dishQuantity = lastMealOrder.getDishQuantity();
 
         Optional<Dish> dish = recipes.retrieveDish(dishName);
         Dish realDish = dish.orElseThrow(RuntimeException::new);
@@ -29,6 +31,6 @@ public class PurchaseOrderController {
 
     @PostMapping("/order")
     public void order(@RequestBody MealOrder mealOrder) {
-        this.currentMealOrder = mealOrder;
+        this.mealOrderRepository.addMealOrder(mealOrder);
     }
 }
