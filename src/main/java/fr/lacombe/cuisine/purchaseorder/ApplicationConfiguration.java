@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile("")
+@Profile("!test")
 public class ApplicationConfiguration {
     @Bean
     public Recipes recipes() {

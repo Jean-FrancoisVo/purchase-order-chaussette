@@ -19,6 +19,11 @@ public class PurchaseOrderLine {
     }
 
     @Override
+    public String toString() {
+        return product + " | " + quantity;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

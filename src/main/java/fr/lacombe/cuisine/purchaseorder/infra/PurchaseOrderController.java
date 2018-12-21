@@ -1,7 +1,10 @@
 package fr.lacombe.cuisine.purchaseorder.infra;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import fr.lacombe.cuisine.purchaseorder.domain.Dish;
+import fr.lacombe.cuisine.purchaseorder.domain.DishesReport;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 public class PurchaseOrderController {
@@ -16,8 +19,15 @@ public class PurchaseOrderController {
         return "Hello";
     }
 
-    @GetMapping("/order")
-    public String order() {
-        return "1 tomate\n2 patates";
+    @PostMapping("/order")
+    public String order(@RequestBody MealOrder mealOrder) {
+        String dishName = mealOrder.getDishName();
+        int dishQuantity = mealOrder.getDishQuantity();
+
+        Optional<Dish> dish = recipes.retrieveDish(dishName);
+        Dish realDish = dish.orElseThrow(RuntimeException::new);
+        DishesReport dishesReport = new DishesReport(realDish, dishQuantity);
+
+        return dishesReport.calculate().get(0).toString();
     }
 }

@@ -2,10 +2,6 @@ package fr.lacombe.cuisine.purchaseorder.domain;
 
 import cucumber.api.DataTable;
 import cucumber.api.java8.En;
-import fr.lacombe.cuisine.purchaseorder.domain.Dish;
-import fr.lacombe.cuisine.purchaseorder.domain.DishesReport;
-import fr.lacombe.cuisine.purchaseorder.domain.Ingredient;
-import fr.lacombe.cuisine.purchaseorder.domain.PurchaseOrderLine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,12 +17,12 @@ public class PurchaseOrderSteps implements En {
 
     public PurchaseOrderSteps() {
         Given("^a carrot salad$", () ->
-                carrotSalad = new Dish("carrot", 1)
+                carrotSalad = new Dish("carrotSalad", "carrot", 1)
         );
 
         Then("^the ingredients should be$", (DataTable stringsDataTable) -> {
             Map<String, Integer> expected = new HashMap<>();
-            stringsDataTable.asList(Ingredient.class).stream()
+            stringsDataTable.asList(Ingredient.class)
                     .forEach(ingredient -> expected.put(ingredient.getName(), ingredient.getQuantity()));
             assertThat(carrotSalad.mapIngredients()).isEqualTo(expected);
         });
@@ -37,7 +33,7 @@ public class PurchaseOrderSteps implements En {
 
         Then("^the purchase order should be$", (DataTable purchaseOrders) -> {
             List<PurchaseOrderLine> expected = new ArrayList<>();
-            purchaseOrders.asList(PurchaseOrderLine.class).stream()
+            purchaseOrders.asList(PurchaseOrderLine.class)
                     .forEach(line -> expected.add(new PurchaseOrderLine(line.getProduct(), line.getQuantity())));
             DishesReport dishesReport = new DishesReport(this.carrotSalad, nbPeople);
             assertThat(dishesReport.calculate()).isEqualTo(expected);
