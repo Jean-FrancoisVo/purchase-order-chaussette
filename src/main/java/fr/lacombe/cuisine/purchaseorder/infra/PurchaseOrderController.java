@@ -9,25 +9,26 @@ import java.util.Optional;
 @RestController
 public class PurchaseOrderController {
     private final Recipes recipes;
+    private MealOrder currentMealOrder;
 
     public PurchaseOrderController(Recipes recipes) {
         this.recipes = recipes;
     }
 
-    @GetMapping("/status")
-    public String hello() {
-        return "Hello";
-    }
-
-    @PostMapping("/order")
-    public String order(@RequestBody MealOrder mealOrder) {
-        String dishName = mealOrder.getDishName();
-        int dishQuantity = mealOrder.getDishQuantity();
+    @GetMapping("/purchase-order")
+    public String getPurchaseOrder() {
+        String dishName = currentMealOrder.getDishName();
+        int dishQuantity = currentMealOrder.getDishQuantity();
 
         Optional<Dish> dish = recipes.retrieveDish(dishName);
         Dish realDish = dish.orElseThrow(RuntimeException::new);
         DishesReport dishesReport = new DishesReport(realDish, dishQuantity);
 
         return dishesReport.calculate().get(0).toString();
+    }
+
+    @PostMapping("/order")
+    public void order(@RequestBody MealOrder mealOrder) {
+        this.currentMealOrder = mealOrder;
     }
 }
