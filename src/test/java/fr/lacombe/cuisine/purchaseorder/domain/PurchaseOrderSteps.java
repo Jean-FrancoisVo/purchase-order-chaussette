@@ -1,7 +1,12 @@
 package fr.lacombe.cuisine.purchaseorder.domain;
 
 import cucumber.api.DataTable;
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
+import fr.lacombe.cuisine.purchaseorder.domain.Dish;
+import fr.lacombe.cuisine.purchaseorder.domain.DishesReport;
+import fr.lacombe.cuisine.purchaseorder.domain.Ingredient;
+import fr.lacombe.cuisine.purchaseorder.domain.PurchaseOrderLine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,9 +27,10 @@ public class PurchaseOrderSteps implements En {
 
         Then("^the ingredients should be$", (DataTable stringsDataTable) -> {
             Map<String, Integer> expected = new HashMap<>();
-            stringsDataTable.asList(Ingredient.class)
+            List<Ingredient> ingredients = stringsDataTable.asList(Ingredient.class);
+             stringsDataTable.asList(Ingredient.class).stream()
                     .forEach(ingredient -> expected.put(ingredient.getName(), ingredient.getQuantity()));
-            assertThat(carrotSalad.mapIngredients()).isEqualTo(expected);
+            assertThat(carrotSalad.getIngredientList()).isEqualTo(ingredients);
         });
 
         And("^(\\d+) person orders it$", (Integer arg0) -> {
@@ -33,10 +39,17 @@ public class PurchaseOrderSteps implements En {
 
         Then("^the purchase order should be$", (DataTable purchaseOrders) -> {
             List<PurchaseOrderLine> expected = new ArrayList<>();
-            purchaseOrders.asList(PurchaseOrderLine.class)
+            purchaseOrders.asList(PurchaseOrderLine.class).stream()
                     .forEach(line -> expected.add(new PurchaseOrderLine(line.getProduct(), line.getQuantity())));
             DishesReport dishesReport = new DishesReport(this.carrotSalad, nbPeople);
             assertThat(dishesReport.calculate()).isEqualTo(expected);
+        });
+        Given("^a tomato mozarella salad$", () -> {
+            List<Ingredient> ingredients = new ArrayList<>();
+            ingredients.add(new Ingredient("tomato", 2));
+            ingredients.add(new Ingredient("mozarella", 1));
+            carrotSalad = new Dish("Tomato mozarella",ingredients);
+            // Write code here that turns the phrase above into concrete actions
         });
     }
 
