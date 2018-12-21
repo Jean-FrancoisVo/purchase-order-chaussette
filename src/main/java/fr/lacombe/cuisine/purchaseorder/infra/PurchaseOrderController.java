@@ -2,9 +2,12 @@ package fr.lacombe.cuisine.purchaseorder.infra;
 
 import fr.lacombe.cuisine.purchaseorder.domain.Dish;
 import fr.lacombe.cuisine.purchaseorder.domain.DishesReport;
+import fr.lacombe.cuisine.purchaseorder.domain.PurchaseOrderLine;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class PurchaseOrderController {
@@ -17,7 +20,7 @@ public class PurchaseOrderController {
     }
 
     @GetMapping("/purchase-order")
-    public String getPurchaseOrder() {
+    public List<String> getPurchaseOrder() {
         MealOrder lastMealOrder = mealOrderRepository.getLastMealOrder();
         String dishName = lastMealOrder.getDishName();
         int dishQuantity = lastMealOrder.getDishQuantity();
@@ -26,7 +29,7 @@ public class PurchaseOrderController {
         Dish realDish = dish.orElseThrow(RuntimeException::new);
         DishesReport dishesReport = new DishesReport(realDish, dishQuantity);
 
-        return dishesReport.calculate().get(0).toString();
+        return dishesReport.calculate().stream().map(PurchaseOrderLine::toString).collect(Collectors.toList());
     }
 
     @PostMapping("/order")

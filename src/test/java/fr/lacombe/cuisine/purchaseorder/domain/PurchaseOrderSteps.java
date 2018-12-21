@@ -1,12 +1,7 @@
 package fr.lacombe.cuisine.purchaseorder.domain;
 
 import cucumber.api.DataTable;
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
-import fr.lacombe.cuisine.purchaseorder.domain.Dish;
-import fr.lacombe.cuisine.purchaseorder.domain.DishesReport;
-import fr.lacombe.cuisine.purchaseorder.domain.Ingredient;
-import fr.lacombe.cuisine.purchaseorder.domain.PurchaseOrderLine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
