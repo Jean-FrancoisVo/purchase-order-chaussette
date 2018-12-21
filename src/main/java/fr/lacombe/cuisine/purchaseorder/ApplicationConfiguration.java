@@ -1,28 +1,21 @@
 package fr.lacombe.cuisine.purchaseorder;
 
 import fr.lacombe.cuisine.purchaseorder.domain.Dish;
+import fr.lacombe.cuisine.purchaseorder.domain.DishBuilder;
 import fr.lacombe.cuisine.purchaseorder.domain.Ingredient;
 import fr.lacombe.cuisine.purchaseorder.infra.Recipes;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
-@Profile("!test")
 public class ApplicationConfiguration {
     @Bean
     public Recipes recipes() {
-        Dish carrotSalad = new Dish("carrotSalad", "carrot", 1);
+        Dish carrotSalad = new DishBuilder().setName("carrotSalad").setIngredients(new Ingredient("carrot", 1)).createDish();
         Recipes recipes = new Recipes();
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(new Ingredient("tomato", 2));
-        ingredients.add(new Ingredient("mozarella", 1));
-        Dish tomatoMozarellaSalad = new Dish("Tomato mozarella",ingredients);
-        recipes.addDish(carrotSalad);
+        Dish tomatoMozarellaSalad = new DishBuilder().setName("Tomato mozarella").setIngredients(new Ingredient("tomato", 2), new Ingredient("mozarella", 1)).createDish();
         recipes.addDish(tomatoMozarellaSalad);
+        recipes.addDish(carrotSalad);
         return recipes;
     }
 

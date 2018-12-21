@@ -3,10 +3,7 @@ package fr.lacombe.cuisine.purchaseorder.domain;
 import cucumber.api.DataTable;
 import cucumber.api.java8.En;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,7 +14,9 @@ public class PurchaseOrderSteps implements En {
 
     public PurchaseOrderSteps() {
         Given("^a carrot salad$", () ->
-                carrotSalad = new Dish("carrotSalad", "carrot", 1)
+                carrotSalad = new DishBuilder()
+                        .setName("carrotSalad")
+                        .setIngredients(new Ingredient("carrot", 1)).createDish()
         );
 
         Then("^the ingredients should be$", (DataTable stringsDataTable) -> {
@@ -40,10 +39,7 @@ public class PurchaseOrderSteps implements En {
             assertThat(dishesReport.calculate()).isEqualTo(expected);
         });
         Given("^a tomato mozarella salad$", () -> {
-            List<Ingredient> ingredients = new ArrayList<>();
-            ingredients.add(new Ingredient("tomato", 2));
-            ingredients.add(new Ingredient("mozarella", 1));
-            carrotSalad = new Dish("Tomato mozarella",ingredients);
+            carrotSalad = new DishBuilder().setName("Tomato mozarella").setIngredients(new Ingredient("tomato", 2), new Ingredient("mozarella", 1)).createDish();
             // Write code here that turns the phrase above into concrete actions
         });
     }

@@ -3,12 +3,8 @@ package fr.lacombe.cuisine.purchaseorder.domain;
 import java.util.*;
 
 public class Dish {
-    private List<Ingredient> ingredientList = new ArrayList<>();
+    private List<Ingredient> ingredientList;
 
-    public Dish(String name, String ingredient, int quantity) {
-        this.name = name;
-        ingredientList.add(new Ingredient(ingredient,quantity));
-    }
     private final String name;
 
     public Dish(final String name, final List<Ingredient> ingredients) {
@@ -23,6 +19,5 @@ public class Dish {
     public boolean hasName(String name) {
         return this.name.equals(name);
     }
-
 
 }
