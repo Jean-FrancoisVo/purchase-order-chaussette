@@ -5,6 +5,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class PurchaseOrderController {
+    private final Recipes recipes;
+
+    public PurchaseOrderController(Recipes recipes) {
+        this.recipes = recipes;
+    }
+
     @GetMapping("/status")
     public String hello() {
         return "Hello";

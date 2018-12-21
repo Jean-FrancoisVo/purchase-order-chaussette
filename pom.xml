@@ -48,6 +48,12 @@
 			<version>LATEST</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-spring</artifactId>
+			<version>LATEST</version>
+			<scope>test</scope>
+		</dependency>
 		<!--<dependency>-->
 			<!--<groupId>info.cukes</groupId>-->
 			<!--<artifactId>cucumber-jvm</artifactId>-->
