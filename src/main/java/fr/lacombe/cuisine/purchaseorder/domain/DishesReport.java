@@ -14,8 +14,8 @@ public class DishesReport {
 
     public List<PurchaseOrderLine> calculate() {
         ArrayList<PurchaseOrderLine> purchaseOrderLines = new ArrayList<>();
-        dish.mapIngredients().forEach((ingredientName, ingredientQuantity) -> {
-            PurchaseOrderLine purchaseOrderLine = new PurchaseOrderLine(ingredientName, ingredientQuantity * dishQuantity);
+        dish.getIngredientList().forEach((ingredient) -> {
+            PurchaseOrderLine purchaseOrderLine = new PurchaseOrderLine(ingredient.getName(), ingredient.getQuantity() * dishQuantity);
             purchaseOrderLines.add(purchaseOrderLine);
         });
         return purchaseOrderLines;

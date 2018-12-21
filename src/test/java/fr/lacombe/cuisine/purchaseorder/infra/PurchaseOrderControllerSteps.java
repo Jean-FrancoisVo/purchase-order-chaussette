@@ -7,6 +7,7 @@ import fr.lacombe.cuisine.purchaseorder.domain.Ingredient;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -23,10 +24,9 @@ public class PurchaseOrderControllerSteps extends CucumberRoot implements En {
         Then("^the ingredients should be$", (DataTable stringsDataTable) -> {
             Optional<Dish> carrotSalad = recipes.retrieveDish("carrotSalad");
 
-            Optional<Map<String, Integer>> ingredientList = carrotSalad.map(Dish::mapIngredients);
+            Optional<List<Ingredient>> ingredientList = carrotSalad.map(Dish::getIngredientList);
 
-            Map<String, Integer> saladCarrotIngredientList = stringsDataTable.asList(Ingredient.class).stream()
-                    .collect(toMap(Ingredient::getName, Ingredient::getQuantity));
+            List<Ingredient> saladCarrotIngredientList = stringsDataTable.asList(Ingredient.class);
             assertThat(ingredientList).isEqualTo(Optional.of(saladCarrotIngredientList));
         });
 
